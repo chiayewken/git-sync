@@ -13,11 +13,10 @@ def main(path_config: str = "config.json"):
     with open(path_config) as f:
         config = Config(**json.load(f))
 
-    git = GitRepo(root=".")
+    git = GitRepo(root=config.path_drive)
+    git.clone(config.repo_drive)
     encoder = FernetEncoder(key=config.encode_key)
     path_drive = Path(config.path_drive).resolve()
-    if path_drive.exists():
-        shutil.rmtree(path_drive)
     synchronizers = []
 
     for f in config.folders:

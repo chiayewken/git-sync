@@ -13,11 +13,6 @@ from utils import FernetEncoder, GitRepo, Config, Synchronizer, ReversedEncoder
 class ReversedSynchronizer(Synchronizer):
     # Assumes files with previously encoded with non-deterministic encryption
     def run_pattern(self, pattern: str, folder_in: Path, folder_out: Path):
-        # paths_in = sorted(self.glob(pattern, folder_in))
-        # paths_out = sorted(self.glob(pattern, folder_out))
-        # encoded = self.encode_paths(paths_in)
-        # paths_map = {encoded[i]: p for i, p in enumerate(paths_in)}
-
         paths_in = sorted(self.glob("*", folder_in))
         paths_out = sorted(self.glob(pattern, folder_out))
         encoded = self.encode_paths(paths_in)
@@ -45,7 +40,8 @@ def main(path_config: str = "config.json"):
     with open(path_config) as f:
         config = Config(**json.load(f))
 
-    git = GitRepo(root=".")
+    git = GitRepo(root=config.path_drive)
+    git.clone(config.repo_drive)
     encoder = ReversedEncoder(encoder=FernetEncoder(key=config.encode_key))
     path_drive = Path(config.path_drive).resolve(strict=True)
     synchronizers = []

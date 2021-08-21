@@ -137,6 +137,7 @@ class Synchronizer(BaseModel):
 
 
 class Config(BaseModel):
+    repo_drive: str
     path_drive: str
     encode_key: str
     update_interval: int
@@ -160,6 +161,12 @@ def run_shell(command: str) -> ShellOutput:
 
 class GitRepo(BaseModel):
     root: str
+
+    def clone(self, url: str):
+        if not Path(self.root).exists():
+            command = f"git clone {url} {self.root}"
+            output = run_shell(command)
+            assert output.is_success
 
     @property
     def prefix(self) -> str:
