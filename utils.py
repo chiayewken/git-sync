@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import List, Set, Dict
 
 from cryptography.fernet import Fernet
+from fire import Fire
 from pydantic import BaseModel
 
 
@@ -201,10 +202,13 @@ class GitRepo(BaseModel):
 
 def test_shell():
     git = GitRepo(root=".")
-    git.add([Path("requirements.txt")])
+    git.add([Path("README.md")])
     print(dict(diff=git.diff_staged()))
 
 
+def generate_key():
+    print(Fernet.generate_key().decode())
+
+
 if __name__ == "__main__":
-    test_shell()
-    test_encoder()
+    Fire()

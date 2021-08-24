@@ -1,0 +1,12 @@
+{
+  "repo_drive": "YOUR_REPO_URL",
+  "path_drive": "../drive",
+  "encode_key": "YOUR_KEY",
+  "update_interval": 1,
+  "folders": [
+    {
+      "path": "YOUR_PROJECT_FOLDER",
+      "file_patterns": ["**/*.py", "**/*.sh"]
+    }
+  ]
+}
